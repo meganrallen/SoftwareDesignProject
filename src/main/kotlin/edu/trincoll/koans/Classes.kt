@@ -23,7 +23,6 @@ fun evalSmartCasts(expr: Expr): Int =
     when (expr) {
         is Num -> expr.value
         is Sum -> evalSmartCasts(expr.left) + evalSmartCasts(expr.right)
-        else -> throw IllegalArgumentException("Unknown expression")
     }
 
 sealed interface Expr
@@ -36,9 +35,7 @@ fun eval(expr: Expr): Int =
     when (expr) {
         is Num -> expr.value
         is Sum -> eval(expr.left) + eval(expr.right)
-        else -> throw IllegalArgumentException("Unknown expression")
     }
-
 
 
 fun useDifferentRandomClasses(): String {
