@@ -4,6 +4,10 @@ package edu.trincoll.koans.solutions
 import kotlin.random.Random as KRandom
 import java.util.Random as JRandom
 
+// Rename on import
+import kotlin.random.Random as KRandom
+import java.util.Random as JRandom
+
 // Data classes
 data class Person(val name: String, val age: Int)
 
@@ -14,8 +18,13 @@ fun getPeople(): List<Person> {
 fun comparePeople(): Boolean {
     val p1 = Person("Alice", 29)
     val p2 = Person("Alice", 29)
+<<<<<<< HEAD:src/main/kotlin/edu/trincoll/koans/solutions/Classes.kt
     return p1 == p2
+=======
+    return p1 == p2  // should be true
+>>>>>>> 7b15fe75e1ad2c483a3e0c617f3b48239305efeb:src/main/kotlin/edu/trincoll/koans/Classes.kt
 }
+
 
 // Smart casts
 fun evalSmartCasts(expr: Expr): Int =
@@ -27,6 +36,7 @@ fun evalSmartCasts(expr: Expr): Int =
 sealed interface Expr
 class Num(val value: Int) : Expr
 class Sum(val left: Expr, val right: Expr) : Expr
+
 
 // Sealed classes
 fun eval(expr: Expr): Int =
