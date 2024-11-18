@@ -1,0 +1,57 @@
+package edu.trincoll.ollama
+
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
+@Serializable
+data class GenerateRequest(
+    val model: String,
+    val prompt: String,
+    val stream: Boolean = false
+)
+
+@Serializable
+data class GenerateResponse(
+    val model: String,
+    val response: String,
+    val done: Boolean
+)
+
+object OllamaClient {
+    private val client = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json { ignoreUnknownKeys = true })
+        }
+    }
+
+    fun generateResponse(model: String, prompt: String): String = runBlocking {
+        val request = GenerateRequest(model = model, prompt = prompt)
+        val response: GenerateResponse = client.post("http://localhost:11434/api/generate") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }.body()
+        return@runBlocking response.response
+    }
+
+    fun close() {
+        client.close()
+    }
+}
+
+fun main() {
+    println("Hello from OllamaClient!")
+    val response = OllamaClient.generateResponse(
+        model = "llama3.2",
+        prompt = "What is the capital of France?"
+    )
+    println("Response: $response")
+    OllamaClient.close()
+}
