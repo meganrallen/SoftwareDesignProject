@@ -1,4 +1,4 @@
-package edu.trincoll.koans.solutions
+package edu.trincoll.koans
 
 // Rename on import
 import kotlin.random.Random as KRandom
